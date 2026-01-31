@@ -35,6 +35,7 @@ export async function createPostAction(
             success: false,
             message: "Validation failed",
             errors: validationResult.error.flatten().fieldErrors,
+            data: rawData,
         };
     }
 
@@ -64,6 +65,7 @@ export async function updatePostAction(
             success: false,
             message: "Validation failed",
             errors: validationResult.error.flatten().fieldErrors,
+            data: rawData,
         };
     }
 

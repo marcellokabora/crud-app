@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,22 +26,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
       >
-        <header className="border-b">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header className="border-b">
           <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Link href="/" className="text-xl font-bold">
               CRUD App
             </Link>
-            <div className="flex gap-6">
+            <div className="flex gap-6 items-center">
               <Link href="/" className="hover:text-primary transition-colors">
                 Home
               </Link>
               <Link href="/posts" className="hover:text-primary transition-colors">
                 Posts
               </Link>
+              <ThemeToggle />
             </div>
           </nav>
         </header>
@@ -51,6 +60,7 @@ export default function RootLayout({
             Built with Next.js, Server Actions & shadcn/ui
           </div>
         </footer>
+        </ThemeProvider>
       </body>
     </html>
   );

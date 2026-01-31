@@ -37,7 +37,7 @@ export function PostForm({ post, mode }: PostFormProps) {
             <Input
               id="title"
               name="title"
-              defaultValue={post?.title || ""}
+              defaultValue={state?.data?.title || post?.title || ""}
               placeholder="Enter post title"
               disabled={isPending}
             />
@@ -51,7 +51,7 @@ export function PostForm({ post, mode }: PostFormProps) {
             <Textarea
               id="body"
               name="body"
-              defaultValue={post?.body || ""}
+              defaultValue={state?.data?.body || post?.body || ""}
               placeholder="Write your post content here..."
               rows={8}
               disabled={isPending}
@@ -60,11 +60,6 @@ export function PostForm({ post, mode }: PostFormProps) {
               <p className="text-sm text-red-500">{state.errors.body[0]}</p>
             )}
           </div>
-
-          {state?.message && !state.success && (
-            <p className="text-sm text-red-500">{state.message}</p>
-          )}
-
           <div className="flex gap-4">
             <Button type="submit" disabled={isPending}>
               {isPending

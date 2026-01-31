@@ -10,4 +10,8 @@ export interface ActionResult {
     success: boolean;
     message: string;
     errors?: Record<string, string[]>;
+    data?: {
+        title?: string;
+        body?: string;
+    };
 }
