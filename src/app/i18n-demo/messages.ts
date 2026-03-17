@@ -1,0 +1,43 @@
+export type Locale = "en" | "es" | "fr";
+
+export const messages: Record<Locale, Record<string, string>> = {
+    en: {
+        title: "Welcome to the i18n Demo",
+        description: "This page demonstrates how internationalization works in Next.js.",
+        postsLink: "Go to Posts",
+        language: "Language",
+        greeting: "Hello, world!",
+        currentLocale: "Current locale",
+        howItWorks: "How it works",
+        step1: "The active locale is stored in state (in a real app it lives in the URL: /en/page, /es/page).",
+        step2: "A messages object maps each locale to its translated strings.",
+        step3: "Components call t('key') to get the right string for the active locale.",
+        step4: "Switching language updates the locale, which re-renders with new translations.",
+    },
+    es: {
+        title: "Bienvenido a la demo de i18n",
+        description: "Esta página demuestra cómo funciona la internacionalización en Next.js.",
+        postsLink: "Ir a publicaciones",
+        language: "Idioma",
+        greeting: "¡Hola, mundo!",
+        currentLocale: "Idioma activo",
+        howItWorks: "Cómo funciona",
+        step1: "El idioma activo se guarda en el estado (en una app real vive en la URL: /en/page, /es/page).",
+        step2: "Un objeto de mensajes mapea cada idioma a sus traducciones.",
+        step3: "Los componentes llaman a t('key') para obtener el texto correcto.",
+        step4: "Cambiar el idioma actualiza el estado y vuelve a renderizar con las nuevas traducciones.",
+    },
+    fr: {
+        title: "Bienvenue dans la démo i18n",
+        description: "Cette page montre comment fonctionne l'internationalisation dans Next.js.",
+        postsLink: "Voir les articles",
+        language: "Langue",
+        greeting: "Bonjour, monde !",
+        currentLocale: "Langue active",
+        howItWorks: "Comment ça marche",
+        step1: "La langue active est stockée dans l'état (dans une vraie app, elle vit dans l'URL : /en/page, /es/page).",
+        step2: "Un objet de messages associe chaque langue à ses traductions.",
+        step3: "Les composants appellent t('key') pour obtenir le bon texte.",
+        step4: "Changer de langue met à jour l'état et le composant se re-rend avec les nouvelles traductions.",
+    },
+};

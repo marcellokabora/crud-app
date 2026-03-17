@@ -48,6 +48,12 @@ export default function RootLayout({
               <Link href="/posts" className="hover:text-primary transition-colors">
                 Posts
               </Link>
+              <Link href="/fetch-test" className="hover:text-primary transition-colors">
+                Fetch Test
+              </Link>
+              <Link href="/i18n-demo" className="hover:text-primary transition-colors">
+                i18n Demo
+              </Link>
               <ThemeToggle />
             </div>
           </nav>

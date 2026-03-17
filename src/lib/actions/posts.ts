@@ -19,7 +19,7 @@ const PostSchema = z.object({
 });
 
 export async function createPostAction(
-    prevState: ActionResult | null,
+    _prevState: ActionResult | null,
     formData: FormData
 ): Promise<ActionResult> {
     const rawData = {
@@ -49,7 +49,7 @@ export async function createPostAction(
 
 export async function updatePostAction(
     id: string,
-    prevState: ActionResult | null,
+    _prevState: ActionResult | null,
     formData: FormData
 ): Promise<ActionResult> {
     const rawData = {
