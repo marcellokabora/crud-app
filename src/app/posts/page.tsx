@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PostCard } from "@/components/posts/post-card";
+import { PostsFilter } from "@/components/posts/posts-filter";
 import { getPosts } from "@/lib/db";
 
 export default async function PostsPage() {
@@ -23,11 +23,7 @@ export default async function PostsPage() {
           </Button>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <PostsFilter posts={posts} />
       )}
     </div>
   );

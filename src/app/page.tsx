@@ -7,10 +7,10 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-          Next.js CRUD App
+          Postly
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl">
-          A simple demonstration of CRUD operations using Next.js Server Actions,
+          A simple posts app built with Next.js Server Actions,
           an in-memory database, and shadcn/ui components.
         </p>
       </div>
