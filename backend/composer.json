@@ -20,6 +20,7 @@
         "test": "phpunit --configuration phpunit.xml"
     },
     "config": {
+        "process-timeout": 0,
         "sort-packages": true
     },
     "require-dev": {

@@ -37,14 +37,16 @@ The integration boundary is `frontend/src/lib/api/client.ts`. Next.js has no Ser
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 20.9+
 - PHP 8.3+ with JSON, mbstring, PDO, and PDO MySQL extensions
 - Composer 2
-- MySQL 8+
+- MySQL 8+ server and command-line client
 
 ## Backend setup
 
-From the repository root:
+Make sure MySQL is running. From the repository root, install the backend dependencies and create its local environment file.
+
+PowerShell:
 
 ```powershell
 Set-Location backend
@@ -52,40 +54,99 @@ Copy-Item .env.example .env
 composer install
 ```
 
-Update the database values in `backend/.env`, create the database and least-privilege MySQL user, then run:
+Bash (macOS/Linux):
+
+```bash
+cd backend
+cp .env.example .env
+composer install
+```
+
+Create the database and its application user by opening the MySQL client as an administrative MySQL user:
+
+```console
+mysql -u root -p
+```
+
+Run the following SQL, replacing the example password with a strong local password:
+
+```sql
+CREATE DATABASE client_ledger
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+CREATE USER 'client_ledger'@'127.0.0.1'
+  IDENTIFIED BY 'replace-with-a-strong-password';
+GRANT ALL PRIVILEGES ON client_ledger.*
+  TO 'client_ledger'@'127.0.0.1';
+EXIT;
+```
+
+Set `DB_PASSWORD` in `backend/.env` to the same password. The other example database values match the SQL above. Keep `APP_ENV=development` for local HTTP development, then run the migrations:
 
 ```powershell
 php bin/migrate.php
 ```
 
+The command should print `Applied 001_create_core_tables.sql`. If it prints nothing, that migration was already applied.
+
 ### Create the first administrator
 
 After the migration succeeds, create the first application administrator. The password must contain at least 12 characters.
 
+PowerShell:
+
 ```powershell
-$env:ADMIN_PASSWORD = "a-long-unique-password"
+$securePassword = Read-Host "Administrator password" -AsSecureString
+$env:ADMIN_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
 php bin/create-admin.php "Administrator" admin@example.com
 Remove-Item Env:ADMIN_PASSWORD
 ```
 
-The command should print `Administrator created.` Use the email and password from this command to sign in to the application. This administrator is separate from any MySQL database user created during database setup.
+Bash (macOS/Linux):
+
+```bash
+read -rsp "Administrator password: " ADMIN_PASSWORD
+echo
+export ADMIN_PASSWORD
+php bin/create-admin.php "Administrator" admin@example.com
+unset ADMIN_PASSWORD
+```
+
+The command should print `Administrator created.` Use the email and password from this command to sign in to the application. This administrator is separate from any MySQL database user created during database setup. Reading the password interactively keeps it out of the repository, process arguments, and shell history.
 
 Start the backend server:
 
 ```powershell
-php -S localhost:8080 -t public
+composer serve
 ```
 
-The API is available at `http://localhost:8080/api`. The administrator command reads the password from an environment variable to avoid storing it in shell history.
+The API is available at `http://localhost:8080/api`. Verify it in another terminal before starting the frontend:
+
+```console
+curl http://localhost:8080/api/health
+```
+
+It should return `{"data":{"status":"ok","service":"client-ledger-api"}}`.
 
 ## Frontend setup
 
-In another terminal, from the repository root:
+In another terminal, from the repository root, create the frontend environment file and install the exact lockfile dependencies.
+
+PowerShell:
 
 ```powershell
 Set-Location frontend
 Copy-Item .env.example .env.local
-npm install
+npm ci
+npm run dev
+```
+
+Bash (macOS/Linux):
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm ci
 npm run dev
 ```
 
@@ -240,7 +301,7 @@ Frontend:
 
 ```powershell
 Set-Location frontend
-npm install
+npm ci
 npm run lint
 npm run build
 npm audit --audit-level=high
